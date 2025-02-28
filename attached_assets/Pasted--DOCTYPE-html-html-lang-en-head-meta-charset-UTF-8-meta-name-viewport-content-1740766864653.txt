@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7-Planet Alignment Collection | Mystic Arcana</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <style>
+    .product-img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <header class="text-center py-8">
+    <h1 class="text-4xl font-bold">7-Planet Alignment Collection</h1>
+    <p class="mt-4 text-lg">Celebrate the rare celestial event on 2/28/25 with exclusive Mystic Arcana products – available today!</p>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Digital Guide -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <img src="your_guide_cover_image.png" alt="7-Planet Alignment Guide" class="product-img">
+      <h2 class="text-2xl font-semibold mt-4">7-Planet Alignment Guide</h2>
+      <p class="mt-2">Instant downloadable PDF guide with viewing tips and astrological insights.</p>
+      <p class="mt-2 font-bold text-xl">$9.99</p>
+      <a href="your_gumroad_link_for_guide" class="mt-4 inline-block bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-500">Buy Now</a>
+    </section>
+
+    <!-- Digital Art Bundle -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <img src="your_art_bundle_image.png" alt="Celestial Wallpapers" class="product-img">
+      <h2 class="text-2xl font-semibold mt-4">Celestial Art Bundle</h2>
+      <p class="mt-2">Download stunning wallpapers (desktop, mobile, social) celebrating the alignment.</p>
+      <p class="mt-2 font-bold text-xl">$4.99</p>
+      <a href="your_gumroad_link_for_art" class="mt-4 inline-block bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-500">Buy Now</a>
+    </section>
+
+    <!-- Custom Tarot Spread -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <img src="your_tarot_spread_image.png" alt="Planetary Alignment Tarot Spread" class="product-img">
+      <h2 class="text-2xl font-semibold mt-4">Planetary Alignment Tarot Spread</h2>
+      <p class="mt-2">Customizable PDF tarot spread linking each card to a planet and zodiac insight.</p>
+      <p class="mt-2 font-bold text-xl">$7.99</p>
+      <a href="your_gumroad_link_for_tarot" class="mt-4 inline-block bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-500">Buy Now</a>
+    </section>
+
+    <!-- Physical T-Shirt -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <img src="your_tshirt_mockup.png" alt="7 Planets Aligned T-Shirt" class="product-img">
+      <h2 class="text-2xl font-semibold mt-4">7 Planets Aligned T-Shirt</h2>
+      <p class="mt-2">Pre-order a premium t-shirt featuring a minimalist design of seven aligned planets.</p>
+      <p class="mt-2 font-bold text-xl">$24.99</p>
+      <a href="your_printify_product_link" class="mt-4 inline-block bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-500">Pre-Order Now</a>
+    </section>
+  </main>
+
+  <footer class="text-center py-6">
+    <p>&copy; 2025 Mystic Arcana. All rights reserved.</p>
+  </footer>
+
+  <script>
+    console.log('7-Planet Alignment Collection page loaded.');
+  </script>
+</body>
+</html>
