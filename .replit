@@ -25,3 +25,7 @@ author = 38636460
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "bash build_and_run.sh"
+
+[[ports]]
+localPort = 8080
+externalPort = 80
