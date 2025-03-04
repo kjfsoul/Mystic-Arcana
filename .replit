@@ -1,6 +1,6 @@
 entrypoint="index.html"
 hidden=[".config"]
-modules = ["web:v2-20230623-0b7a606"]
+modules = ["web:v2-20230623-0b7a606", "nodejs-23", "php-8.2", "postgresql-17", "python-3.9", "replit-rtld-loader", "nodejs-with-prybar-18"]
 
 [nix]
 channel = "stable-23_11"
@@ -8,3 +8,6 @@ channel = "stable-23_11"
 [deployment]
 publicDir = "/"
 deploymentTarget = "static"
+
+[objectStorage]
+defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
