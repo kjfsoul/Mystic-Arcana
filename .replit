@@ -14,3 +14,14 @@ run = ["sh", "-c", "python app.py"]
 
 [objectStorage]
 defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
+
+[workflows]
+runButton = "Build and Run"
+
+[[workflows.workflow]]
+name = "Build and Run"
+author = 38636460
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash build_and_run.sh"
