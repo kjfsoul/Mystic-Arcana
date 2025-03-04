@@ -1,0 +1,4 @@
+
+flask==2.0.1
+replit==3.2.5
+werkzeug==2.0.1

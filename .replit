@@ -1,6 +1,8 @@
-entrypoint="index.html"
+entrypoint="app.py"
 hidden=[".config"]
 modules = ["web:v2-20230623-0b7a606", "nodejs-23", "php-8.2", "postgresql-17", "python-3.9", "replit-rtld-loader", "nodejs-with-prybar-18"]
+
+run = ["python", "app.py"]
 
 [nix]
 channel = "stable-23_11"
@@ -8,6 +10,7 @@ channel = "stable-23_11"
 [deployment]
 publicDir = "/"
 deploymentTarget = "static"
+run = ["sh", "-c", "python app.py"]
 
 [objectStorage]
 defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"

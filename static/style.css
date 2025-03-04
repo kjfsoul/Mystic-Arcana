@@ -1,0 +1,200 @@
+
+/* Background Stars Effect */
+.stars, .twinkling {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.stars {
+  background: #000 url('https://i.imgur.com/YKY28eT.png') repeat top center;
+  z-index: 0;
+}
+
+.twinkling {
+  background: transparent url('https://i.imgur.com/XYMF4ca.png') repeat top center;
+  z-index: 1;
+  animation: move-twink-back 200s linear infinite;
+}
+
+@keyframes move-twink-back {
+  from {background-position: 0 0;}
+  to {background-position: -10000px 5000px;}
+}
+
+/* Section Title */
+.section-title {
+  text-align: center;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -0.75rem;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(to right, #8b5cf6, #6366f1);
+  border-radius: 3px;
+}
+
+/* Nav Links */
+.nav-link {
+  color: #e9d5ff;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  background-color: rgba(139, 92, 246, 0.2);
+  color: white;
+}
+
+/* Content Cards */
+.content-card {
+  background: rgba(17, 24, 39, 0.7);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background-color: rgba(124, 58, 237, 0.2);
+  margin-bottom: 1rem;
+}
+
+.card-icon i {
+  font-size: 1.25rem;
+  color: #c4b5fd;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  color: #c4b5fd;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.card-link:hover {
+  color: #a78bfa;
+}
+
+/* Tarot Mini Cards */
+.tarot-mini-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #581c87 0%, #7e22ce 100%);
+  border-radius: 0.25rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tarot-mini-card::before {
+  content: "";
+  position: absolute;
+  width: 70%;
+  height: 80%;
+  border: 1px solid rgba(196, 181, 253, 0.3);
+  border-radius: 0.25rem;
+}
+
+/* Membership Image */
+.membership-image {
+  background: linear-gradient(to bottom right, #4338ca, #7e22ce);
+  position: relative;
+  overflow: hidden;
+}
+
+.membership-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://i.imgur.com/JF9LuLQ.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+}
+
+/* Blog Cards */
+.blog-card {
+  background: rgba(17, 24, 39, 0.7);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(123, 31, 162, 0.25);
+}
+
+/* Blog Images - Placeholder gradients (replace with actual images) */
+.blog-image-1 {
+  background: linear-gradient(to right, #4338ca, #5b21b6);
+}
+
+.blog-image-2 {
+  background: linear-gradient(to right, #5b21b6, #7e22ce);
+}
+
+.blog-image-3 {
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+}
+
+/* Product Cards */
+.product-card {
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Mystical Elements */
+.mystical-symbol {
+  width: 100px;
+  height: 100px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%238b5cf6' stroke-width='2'/%3E%3Cpath d='M50 5 L50 95 M5 50 L95 50 M26 26 L74 74 M26 74 L74 26' stroke='%238b5cf6' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%23c4b5fd' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='10' fill='none' stroke='%23c4b5fd' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+}

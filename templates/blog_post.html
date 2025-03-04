@@ -1,0 +1,66 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | Mystic Arcana{% endblock %}
+
+{% block content %}
+<main class="relative z-10 min-h-screen py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <a href="{{ url_for('blog.blog_home') }}" class="inline-flex items-center text-purple-400 hover:text-purple-300">
+          <i class="fas fa-arrow-left mr-2"></i> Back to All Posts
+        </a>
+      </div>
+      
+      <article class="bg-gray-900 bg-opacity-70 rounded-xl overflow-hidden shadow-2xl mb-12">
+        <div class="h-64 bg-purple-900 relative">
+          <div class="blog-image-1 h-full w-full absolute inset-0"></div>
+          <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900 p-6">
+            <a href="{{ url_for('blog.blog_category', category=post.category) }}" class="inline-block px-3 py-1 mb-2 bg-indigo-700 text-white text-xs rounded-full">
+              {{ post.category }}
+            </a>
+            <h1 class="text-3xl md:text-4xl font-bold text-white">{{ post.title }}</h1>
+          </div>
+        </div>
+        <div class="p-8">
+          <div class="flex items-center mb-8 text-gray-400 text-sm">
+            <span class="flex items-center mr-6">
+              <i class="far fa-user mr-2"></i> {{ post.author }}
+            </span>
+            <span class="flex items-center">
+              <i class="far fa-calendar mr-2"></i> {{ post.date }}
+            </span>
+          </div>
+          
+          <div class="prose prose-lg text-gray-300 max-w-none">
+            {{ post.content|safe }}
+          </div>
+        </div>
+      </article>
+      
+      <!-- Related Posts -->
+      <h2 class="text-2xl font-bold text-white mb-6">You May Also Enjoy</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for i in range(3) %}
+          {% set related_post = posts[(loop.index0 + 1) % posts|length] %}
+          {% if related_post.id != post.id %}
+            <a href="{{ url_for('blog.blog_post', post_id=related_post.id) }}" class="block bg-gray-900 bg-opacity-50 rounded-xl overflow-hidden hover:bg-opacity-70 transition">
+              <div class="h-40 bg-purple-900 relative">
+                <div class="blog-image-{{ loop.index }} h-full w-full absolute inset-0"></div>
+                <div class="absolute top-2 left-2 px-2 py-1 bg-indigo-700 text-white text-xs rounded-full">
+                  {{ related_post.category }}
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-white mb-2">{{ related_post.title }}</h3>
+                <p class="text-gray-400 text-xs">{{ related_post.date }}</p>
+              </div>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

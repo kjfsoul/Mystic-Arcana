@@ -1,0 +1,127 @@
+
+{% extends "base.html" %}
+
+{% block title %}Seven-Planet Alignment | Mystic Arcana{% endblock %}
+
+{% block content %}
+<main class="relative z-10 min-h-screen py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-white mb-6 text-center">The Seven-Planet Alignment</h1>
+      <p class="text-xl text-purple-300 text-center mb-12">February 28, 2025</p>
+      
+      <div class="bg-gray-900 bg-opacity-70 rounded-xl overflow-hidden shadow-2xl mb-12">
+        <div class="p-8">
+          <h2 class="text-2xl font-bold text-white mb-4">A Rare Cosmic Event</h2>
+          <p class="text-gray-300 mb-6">
+            On February 28, 2025, seven planets in our solar system will align in a rare celestial event that astronomers and astrologers alike are eagerly anticipating. This alignment will feature Mercury, Venus, Mars, Jupiter, Saturn, Uranus, and Neptune appearing in a relatively straight line as viewed from Earth.
+          </p>
+          <p class="text-gray-300 mb-6">
+            What makes this event particularly special is that all seven planets will be visible to the naked eye or with minimal equipment like binoculars, creating a spectacular viewing opportunity for enthusiasts and professionals around the world.
+          </p>
+          
+          <!-- Planet Visualization -->
+          <div class="relative h-24 mb-8 overflow-hidden">
+            <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
+              <div class="h-1 bg-gray-700 w-full"></div>
+            </div>
+            <div class="absolute left-[10%] top-1/2 transform -translate-y-1/2">
+              <div class="w-4 h-4 rounded-full bg-gray-400"></div>
+              <p class="text-xs text-gray-400 mt-1">Mercury</p>
+            </div>
+            <div class="absolute left-[20%] top-1/2 transform -translate-y-1/2">
+              <div class="w-5 h-5 rounded-full bg-yellow-200"></div>
+              <p class="text-xs text-gray-400 mt-1">Venus</p>
+            </div>
+            <div class="absolute left-[35%] top-1/2 transform -translate-y-1/2">
+              <div class="w-5 h-5 rounded-full bg-red-400"></div>
+              <p class="text-xs text-gray-400 mt-1">Mars</p>
+            </div>
+            <div class="absolute left-[50%] top-1/2 transform -translate-y-1/2">
+              <div class="w-8 h-8 rounded-full bg-orange-300"></div>
+              <p class="text-xs text-gray-400 mt-1">Jupiter</p>
+            </div>
+            <div class="absolute left-[65%] top-1/2 transform -translate-y-1/2">
+              <div class="w-7 h-7 rounded-full bg-yellow-600"></div>
+              <p class="text-xs text-gray-400 mt-1">Saturn</p>
+            </div>
+            <div class="absolute left-[80%] top-1/2 transform -translate-y-1/2">
+              <div class="w-6 h-6 rounded-full bg-teal-300"></div>
+              <p class="text-xs text-gray-400 mt-1">Uranus</p>
+            </div>
+            <div class="absolute left-[90%] top-1/2 transform -translate-y-1/2">
+              <div class="w-6 h-6 rounded-full bg-blue-400"></div>
+              <p class="text-xs text-gray-400 mt-1">Neptune</p>
+            </div>
+          </div>
+          
+          <h2 class="text-2xl font-bold text-white mb-4">Astrological Significance</h2>
+          <p class="text-gray-300 mb-6">
+            From an astrological perspective, this seven-planet alignment represents a powerful moment of cosmic harmony and potential transformation. The combined energies of these celestial bodies create a unique opportunity for spiritual growth, manifestation, and collective consciousness shifts.
+          </p>
+          <p class="text-gray-300 mb-6">
+            This alignment is especially potent because it brings together the energy of all the classical planets plus the modern outer planets, creating a full spectrum of cosmic influences that can help us integrate different aspects of our lives and consciousness.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Product Promo -->
+      <div class="bg-indigo-900 bg-opacity-40 rounded-xl overflow-hidden shadow-lg mb-12">
+        <div class="p-8">
+          <h2 class="text-2xl font-bold text-white mb-4 text-center">Prepare for the Alignment</h2>
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+              <h3 class="text-xl font-bold text-purple-300 mb-2">7-Planet Alignment Guide</h3>
+              <p class="text-gray-300 mb-4">
+                Our comprehensive digital guide includes:
+              </p>
+              <ul class="space-y-2 mb-6 text-gray-300">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                  <span>Detailed viewing maps for your location</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                  <span>Ritual suggestions for each zodiac sign</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                  <span>Manifestation techniques to harness the alignment energy</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-400 mt-1 mr-2"></i>
+                  <span>Historical context and astronomical explanation</span>
+                </li>
+              </ul>
+              <p class="text-lg font-bold text-yellow-400 mb-4">$9.99</p>
+              <button class="px-6 py-2 bg-indigo-700 text-white rounded hover:bg-indigo-600 transition">
+                Add to Cart
+              </button>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+              <div class="w-64 h-80 bg-indigo-800 rounded-lg flex items-center justify-center">
+                <div class="text-center p-4">
+                  <i class="fas fa-book-open text-5xl text-indigo-300 mb-4"></i>
+                  <h4 class="text-white font-bold">Digital Alignment Guide</h4>
+                  <p class="text-xs text-gray-300 mt-2">Instant download after purchase</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="#" class="block bg-purple-900 bg-opacity-30 p-6 rounded-xl hover:bg-opacity-50 transition">
+          <h3 class="text-xl font-bold text-white mb-2">Alignment Meditation Event</h3>
+          <p class="text-gray-300">Join our global online meditation during the planetary alignment. Connect with thousands of spiritual seekers worldwide.</p>
+        </a>
+        <a href="{{ url_for('astrology.astrology_home') }}" class="block bg-indigo-900 bg-opacity-30 p-6 rounded-xl hover:bg-opacity-50 transition">
+          <h3 class="text-xl font-bold text-white mb-2">How This Affects Your Sign</h3>
+          <p class="text-gray-300">Explore the specific impacts of this alignment on your zodiac sign and birth chart.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,109 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ sign }} Horoscope | Mystic Arcana{% endblock %}
+
+{% block content %}
+<main class="relative z-10 min-h-screen py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-12 text-center">
+        <div class="w-24 h-24 bg-indigo-900 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fas fa-star text-3xl text-yellow-400"></i>
+        </div>
+        <h1 class="text-4xl font-bold text-white mb-2">{{ sign }} Daily Horoscope</h1>
+        <p class="text-xl text-purple-300">{{ sign_info.dates }}</p>
+      </div>
+      
+      <div class="bg-gray-900 bg-opacity-70 rounded-xl overflow-hidden shadow-2xl mb-12">
+        <div class="p-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="text-center">
+              <div class="w-16 h-16 rounded-full bg-purple-900 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-fire text-xl text-orange-400"></i>
+              </div>
+              <h3 class="font-bold text-white mb-1">Element</h3>
+              <p class="text-purple-300">{{ sign_info.element }}</p>
+            </div>
+            <div class="text-center">
+              <div class="w-16 h-16 rounded-full bg-purple-900 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-globe text-xl text-blue-400"></i>
+              </div>
+              <h3 class="font-bold text-white mb-1">Ruling Planet</h3>
+              <p class="text-purple-300">{{ sign_info.ruling_planet }}</p>
+            </div>
+            <div class="text-center">
+              <div class="w-16 h-16 rounded-full bg-purple-900 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-gem text-xl text-green-400"></i>
+              </div>
+              <h3 class="font-bold text-white mb-1">Quality</h3>
+              <p class="text-purple-300">
+                {% if sign in ['aries', 'cancer', 'libra', 'capricorn'] %}
+                  Cardinal
+                {% elif sign in ['taurus', 'leo', 'scorpio', 'aquarius'] %}
+                  Fixed
+                {% else %}
+                  Mutable
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          
+          <h2 class="text-2xl font-bold text-white mb-4">Today's Forecast</h2>
+          <p class="text-gray-300 text-lg mb-6">{{ horoscope }}</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-indigo-900 bg-opacity-40 p-4 rounded-lg">
+              <h3 class="font-bold text-white mb-2">Lucky Numbers</h3>
+              <p class="text-purple-300">3, 7, 12, 24, 36</p>
+            </div>
+            <div class="bg-indigo-900 bg-opacity-40 p-4 rounded-lg">
+              <h3 class="font-bold text-white mb-2">Compatible Signs</h3>
+              <p class="text-purple-300">
+                {% if sign in ['aries', 'leo', 'sagittarius'] %}
+                  Leo, Sagittarius, Gemini
+                {% elif sign in ['taurus', 'virgo', 'capricorn'] %}
+                  Virgo, Capricorn, Cancer
+                {% elif sign in ['gemini', 'libra', 'aquarius'] %}
+                  Libra, Aquarius, Aries
+                {% else %}
+                  Scorpio, Pisces, Taurus
+                {% endif %}
+              </p>
+            </div>
+            <div class="bg-indigo-900 bg-opacity-40 p-4 rounded-lg">
+              <h3 class="font-bold text-white mb-2">Power Color</h3>
+              <p class="text-purple-300">
+                {% if sign == 'aries' %}Red
+                {% elif sign == 'taurus' %}Green
+                {% elif sign == 'gemini' %}Yellow
+                {% elif sign == 'cancer' %}Silver
+                {% elif sign == 'leo' %}Gold
+                {% elif sign == 'virgo' %}Navy Blue
+                {% elif sign == 'libra' %}Pink
+                {% elif sign == 'scorpio' %}Deep Red
+                {% elif sign == 'sagittarius' %}Purple
+                {% elif sign == 'capricorn' %}Brown
+                {% elif sign == 'aquarius' %}Electric Blue
+                {% elif sign == 'pisces' %}Sea Green
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="{{ url_for('astrology.planet_alignment') }}" class="block bg-purple-900 bg-opacity-30 p-6 rounded-xl hover:bg-opacity-50 transition">
+          <h3 class="text-xl font-bold text-white mb-2">How The Planetary Alignment Affects {{ sign }}</h3>
+          <p class="text-gray-300">Discover how the upcoming seven-planet alignment will impact your sign specifically.</p>
+        </a>
+        <a href="{{ url_for('astrology.astrology_home') }}" class="block bg-indigo-900 bg-opacity-30 p-6 rounded-xl hover:bg-opacity-50 transition">
+          <h3 class="text-xl font-bold text-white mb-2">Explore Other Signs</h3>
+          <p class="text-gray-300">Check compatibility and learn about how different zodiac energies interact with yours.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

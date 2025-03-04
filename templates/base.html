@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Mystic Arcana | Astrology, Tarot & Spiritual Wellness{% endblock %}</title>
+  <meta name="description" content="{% block description %}Explore the mystical arts with Mystic Arcana - Your daily source for astrology insights, tarot readings, spiritual wellness, and occult wisdom.{% endblock %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="twinkling"></div>
+
+  <!-- Navigation -->
+  <nav class="relative z-10 bg-gray-900 bg-opacity-80 text-white py-4">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
+      <a href="{{ url_for('home.home') }}" class="text-2xl font-bold mb-4 md:mb-0 flex items-center">
+        <span class="text-purple-300">Mystic</span>
+        <span class="text-yellow-400">Arcana</span>
+      </a>
+      <div class="flex flex-wrap justify-center space-x-1 md:space-x-6">
+        <a href="{{ url_for('astrology.astrology_home') }}" class="nav-link">Astrology</a>
+        <a href="{{ url_for('readings.tarot_readings') }}" class="nav-link">Tarot</a>
+        <a href="#oracle" class="nav-link">Oracle</a>
+        <a href="#wellness" class="nav-link">Spiritual Wellness</a>
+        <a href="#occult" class="nav-link">Occult & Paranormal</a>
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="{{ url_for('blog.blog_home') }}" class="nav-link">Blog</a>
+      </div>
+      <div class="mt-4 md:mt-0 flex space-x-3">
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('profile.profile') }}" class="px-4 py-2 rounded-full border border-purple-400 text-purple-300 hover:bg-purple-900 hover:bg-opacity-50 transition">Profile</a>
+          <a href="{{ url_for('profile.logout') }}" class="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-700 text-white hover:from-purple-700 hover:to-indigo-800 transition">Logout</a>
+        {% else %}
+          <a href="{{ url_for('profile.login') }}" class="px-4 py-2 rounded-full border border-purple-400 text-purple-300 hover:bg-purple-900 hover:bg-opacity-50 transition">Login</a>
+          <a href="{{ url_for('profile.register') }}" class="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-700 text-white hover:from-purple-700 hover:to-indigo-800 transition">Sign Up</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <footer class="relative z-10 bg-gray-900 bg-opacity-90 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <h3 class="text-xl font-bold mb-4">Mystic Arcana</h3>
+          <p class="text-gray-400 mb-4">Your daily source for astrology, tarot, and spiritual guidance. Explore the mystical connection between the stars and your daily life.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-purple-400"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-purple-400"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-purple-400"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-purple-400"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="text-gray-400 hover:text-purple-400"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Explore</h3>
+          <ul class="space-y-2">
+            <li><a href="{{ url_for('astrology.astrology_home') }}" class="text-gray-400 hover:text-purple-400">Astrology</a></li>
+            <li><a href="{{ url_for('readings.tarot_readings') }}" class="text-gray-400 hover:text-purple-400">Tarot & Oracle</a></li>
+            <li><a href="#wellness" class="text-gray-400 hover:text-purple-400">Spiritual Wellness</a></li>
+            <li><a href="#occult" class="text-gray-400 hover:text-purple-400">Occult & Paranormal</a></li>
+            <li><a href="{{ url_for('blog.blog_home') }}" class="text-gray-400 hover:text-purple-400">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#shop" class="text-gray-400 hover:text-purple-400">Shop</a></li>
+            <li><a href="#membership" class="text-gray-400 hover:text-purple-400">Membership</a></li>
+            <li><a href="#about" class="text-gray-400 hover:text-purple-400">About Us</a></li>
+            <li><a href="#contact" class="text-gray-400 hover:text-purple-400">Contact</a></li>
+            <li><a href="#privacy" class="text-gray-400 hover:text-purple-400">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+        <p class="text-gray-500">&copy; 2025 Mystic Arcana. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
