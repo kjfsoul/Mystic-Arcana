@@ -102,6 +102,12 @@ def generate_blog_post(topic, category):
     
     Format with HTML tags (<h3> for subheadings, <p> for paragraphs).
     Total length should be 800-1000 words.
+    
+    Use SEO best practices with:
+    - Natural keyword placement
+    - Short paragraphs (3-4 sentences)
+    - Engaging subheadings
+    - Include a meta description of 150-160 characters
     """
     
     content = generate_completion(prompt, max_tokens=2500)
@@ -112,6 +118,155 @@ def generate_blog_post(topic, category):
         "content": content,
         "timestamp": import_datetime().now().strftime("%Y-%m-%d %H:%M:%S")
     }
+
+def generate_celtic_cross_reading(question):
+    """
+    Generate a detailed Celtic Cross spread reading (10 cards)
+    """
+    from blueprints.readings import TAROT_CARDS
+    import random
+    
+    # Select 10 random cards for the Celtic Cross spread
+    cards = random.sample(TAROT_CARDS, 10)
+    
+    positions = [
+        "Present", "Challenge", "Past", "Future", 
+        "Above (Conscious)", "Below (Unconscious)", 
+        "Advice", "External Influences", 
+        "Hopes/Fears", "Outcome"
+    ]
+    
+    cards_info = ""
+    for i, (card, position) in enumerate(zip(cards, positions)):
+        cards_info += f"{i+1}. {position}: {card['name']} ({card['meaning']})\n"
+    
+    prompt = f"""
+    Generate a detailed Celtic Cross tarot reading for the question: "{question}"
+    
+    The cards drawn are:
+    {cards_info}
+    
+    Include an explanation of each card position in the Celtic Cross spread.
+    Then provide a thorough interpretation of each card in its position.
+    Finally, synthesize the cards into a cohesive reading that addresses the question.
+    
+    Format your response in clear paragraphs with HTML formatting, using 
+    <h3> tags for sections and <p> for paragraphs.
+    """
+    
+    reading = generate_completion(prompt, max_tokens=2000)
+    
+    return {"cards": cards, "reading": reading}
+
+def generate_detailed_reading(question, cards=5):
+    """
+    Generate a detailed reading with a specific number of cards
+    """
+    from blueprints.readings import TAROT_CARDS
+    import random
+    
+    # Select random cards for the reading
+    selected_cards = random.sample(TAROT_CARDS, cards)
+    
+    cards_info = ""
+    for i, card in enumerate(selected_cards):
+        cards_info += f"{i+1}. {card['name']} ({card['meaning']})\n"
+    
+    prompt = f"""
+    Generate a detailed tarot reading for the following question: "{question}"
+    
+    The {cards} cards drawn are:
+    {cards_info}
+    
+    Provide a thorough interpretation of each card and its position in the spread.
+    Explain how the cards relate to each other and create a narrative.
+    Conclude with specific insights and guidance related to the question.
+    
+    Format your response in clear paragraphs with HTML formatting,
+    using <h3> tags for each card's section and <p> for paragraphs.
+    """
+    
+    reading = generate_completion(prompt, max_tokens=1800)
+    
+    return {"cards": selected_cards, "reading": reading}
+
+def generate_seo_optimized_blog_posts():
+    """
+    Generate 5 SEO-optimized blog posts about mystical topics
+    """
+    blog_topics = [
+        {
+            "title": "The Seven-Planet Alignment of February 2025: A Cosmic Must-Know",
+            "category": "Astrology", 
+            "keywords": "planet alignment, February 2025, astrological significance, rare celestial event"
+        },
+        {
+            "title": "Integrating Tarot and Oracle Cards for Deeper Readings",
+            "category": "Tarot & Oracle",
+            "keywords": "tarot, oracle cards, card reading techniques, spiritual guidance"
+        },
+        {
+            "title": "Ancient Moon Rituals for Modern Self-Care Practices",
+            "category": "Spiritual Wellness",
+            "keywords": "moon rituals, self-care, lunar phases, spiritual practices"
+        },
+        {
+            "title": "Understanding Your Natal Chart: Beyond Sun Signs",
+            "category": "Astrology",
+            "keywords": "natal chart, birth chart, planets, houses, aspects, astrology basics"
+        },
+        {
+            "title": "The Hidden Wisdom of the Minor Arcana in Tarot",
+            "category": "Tarot & Oracle",
+            "keywords": "minor arcana, tarot suits, pentacles, cups, swords, wands, tarot meanings"
+        }
+    ]
+    
+    generated_posts = []
+    
+    for topic in blog_topics:
+        prompt = f"""
+        Generate a detailed blog post about "{topic['title']}" for the category "{topic['category']}".
+        Keywords to include naturally: {topic['keywords']}
+        
+        The blog should follow SEO best practices with:
+        - A compelling meta description (150-160 characters)
+        - An attention-grabbing introduction with the primary keyword
+        - 3-4 main sections with descriptive H2 subheadings
+        - Short, scannable paragraphs (3-4 sentences)
+        - Bullet points or numbered lists where appropriate
+        - A clear call-to-action conclusion
+        
+        Format with HTML tags (<h3> for subheadings, <p> for paragraphs, <ul>/<li> for lists).
+        Total length should be 1000-1500 words.
+        
+        Also include a meta description in a <meta_description> tag at the beginning.
+        """
+        
+        content = generate_completion(prompt, max_tokens=3000)
+        
+        # Extract meta description if present
+        meta_description = ""
+        if "<meta_description>" in content and "</meta_description>" in content:
+            start = content.find("<meta_description>") + len("<meta_description>")
+            end = content.find("</meta_description>")
+            meta_description = content[start:end].strip()
+            content = content.replace(content[start-len("<meta_description>"):end+len("</meta_description>")], "")
+        
+        post = {
+            "title": topic["title"],
+            "category": topic["category"],
+            "content": content,
+            "meta_description": meta_description,
+            "keywords": topic["keywords"],
+            "author": "AI Mystic",
+            "date": import_datetime().now().strftime("%b %d, %Y"),
+            "timestamp": import_datetime().now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        
+        generated_posts.append(post)
+    
+    return generated_posts
 
 def import_datetime():
     """Helper function to avoid circular imports"""

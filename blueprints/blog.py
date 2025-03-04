@@ -143,42 +143,126 @@ def generate_batch():
         return redirect(url_for('profile.login'))
     
     if request.method == 'POST':
-        # Generate 5 blog posts as requested
-        blog_ideas = [
-            {"title": "Top 5 Tarot Tips for Beginners", "category": "Tarot & Oracle"},
-            {"title": "Mars Retrograde Explained: What It Means For You", "category": "Astrology"},
-            {"title": "Understanding the Major Arcana: A Deep Dive", "category": "Tarot & Oracle"},
-            {"title": "Moon Phases and Their Spiritual Significance", "category": "Spiritual Wellness"},
-            {"title": "Meditation Techniques for Enhancing Psychic Abilities", "category": "Spiritual Wellness"}
-        ]
+        if request.form.get('generate_type') == 'seo':
+            # Generate SEO-optimized blog posts
+            from utils.openai_client import generate_seo_optimized_blog_posts
+            generated_posts = generate_seo_optimized_blog_posts()
+            
+            # Convert to the format used in the database
+            db_posts = []
+            for post in generated_posts:
+                db_post = {
+                    "id": str(datetime.now().timestamp()),
+                    "title": post["title"],
+                    "author": post["author"],
+                    "date": post["date"],
+                    "category": post["category"],
+                    "content": post["content"],
+                    "meta_description": post.get("meta_description", ""),
+                    "keywords": post.get("keywords", ""),
+                    "ai_generated": True,
+                    "seo_optimized": True
+                }
+                db_posts.append(db_post)
+                
+                # Add a small delay to avoid overwhelming the API
+                import time
+                time.sleep(1)
+            
+            # Add the generated posts to the database
+            if 'blog_posts' not in db:
+                db['blog_posts'] = SAMPLE_POSTS
+            
+            db['blog_posts'].extend(db_posts)
+            
+            flash(f'Successfully generated {len(db_posts)} SEO-optimized blog posts', 'success')
+            return redirect(url_for('blog.blog_home'))
+        else:
+            # Generate regular blog posts
+            blog_ideas = [
+                {"title": "Top 5 Tarot Tips for Beginners", "category": "Tarot & Oracle"},
+                {"title": "Mars Retrograde Explained: What It Means For You", "category": "Astrology"},
+                {"title": "Understanding the Major Arcana: A Deep Dive", "category": "Tarot & Oracle"},
+                {"title": "Moon Phases and Their Spiritual Significance", "category": "Spiritual Wellness"},
+                {"title": "Meditation Techniques for Enhancing Psychic Abilities", "category": "Spiritual Wellness"}
+            ]
+            
+            generated_posts = []
+            for idea in blog_ideas:
+                post_data = generate_blog_post(idea["title"], idea["category"])
+                
+                new_post = {
+                    "id": str(datetime.now().timestamp()),
+                    "title": idea["title"],
+                    "author": "AI Mystic",
+                    "date": datetime.now().strftime("%b %d, %Y"),
+                    "category": idea["category"],
+                    "content": post_data["content"],
+                    "ai_generated": True
+                }
+                
+                generated_posts.append(new_post)
+                
+                # Add a small delay to avoid overwhelming the API
+                import time
+                time.sleep(2)
+            
+            # Add the generated posts to the database
+            if 'blog_posts' not in db:
+                db['blog_posts'] = SAMPLE_POSTS
+            
+            db['blog_posts'].extend(generated_posts)
+            
+            flash(f'Successfully generated {len(generated_posts)} blog posts', 'success')
+            return redirect(url_for('blog.blog_home'))
+    
+    return render_template('generate_batch.html')
+
+@blog_bp.route('/admin/generate-seo', methods=['GET', 'POST'])
+def generate_seo_posts():
+    """Generate SEO-optimized blog posts about the planet alignment and other topics"""
+    if 'user_id' not in session:
+        return redirect(url_for('profile.login'))
+    
+    # Ensure the user is an admin
+    if 'users' in db and session['user_id'] in db['users']:
+        if db['users'][session['user_id']].get('email') != 'admin@mysticarcana.com':
+            return redirect(url_for('blog.blog_home'))
+    else:
+        return redirect(url_for('profile.login'))
+    
+    if request.method == 'POST':
+        from utils.openai_client import generate_seo_optimized_blog_posts
+        generated_posts = generate_seo_optimized_blog_posts()
         
-        generated_posts = []
-        for idea in blog_ideas:
-            post_data = generate_blog_post(idea["title"], idea["category"])
-            
-            new_post = {
+        # Convert to the format used in the database
+        db_posts = []
+        for post in generated_posts:
+            db_post = {
                 "id": str(datetime.now().timestamp()),
-                "title": idea["title"],
-                "author": "AI Mystic",
-                "date": datetime.now().strftime("%b %d, %Y"),
-                "category": idea["category"],
-                "content": post_data["content"],
-                "ai_generated": True
+                "title": post["title"],
+                "author": post["author"],
+                "date": post["date"],
+                "category": post["category"],
+                "content": post["content"],
+                "meta_description": post.get("meta_description", ""),
+                "keywords": post.get("keywords", ""),
+                "ai_generated": True,
+                "seo_optimized": True
             }
-            
-            generated_posts.append(new_post)
+            db_posts.append(db_post)
             
             # Add a small delay to avoid overwhelming the API
             import time
-            time.sleep(2)
+            time.sleep(1)
         
         # Add the generated posts to the database
         if 'blog_posts' not in db:
             db['blog_posts'] = SAMPLE_POSTS
         
-        db['blog_posts'].extend(generated_posts)
+        db['blog_posts'].extend(db_posts)
         
-        flash(f'Successfully generated {len(generated_posts)} blog posts', 'success')
+        flash(f'Successfully generated {len(db_posts)} SEO-optimized blog posts', 'success')
         return redirect(url_for('blog.blog_home'))
     
-    return render_template('generate_batch.html')
+    return render_template('generate_seo.html')

@@ -64,3 +64,94 @@
     </div>
 </div>
 {% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}Your Tarot Reading | Mystic Arcana{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-bold text-purple-300 mb-3">Your Tarot Reading</h1>
+      <p class="text-xl text-purple-200">{{ reading.date }}</p>
+      <div class="flex justify-center space-x-2 mt-4">
+        <div class="h-1 w-6 bg-purple-500 rounded-full"></div>
+        <div class="h-1 w-10 bg-indigo-500 rounded-full"></div>
+        <div class="h-1 w-6 bg-blue-500 rounded-full"></div>
+      </div>
+    </div>
+    
+    <div class="bg-gray-900 bg-opacity-60 rounded-lg p-8 shadow-lg backdrop-filter backdrop-blur-sm">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-indigo-300 mb-4">Your Question</h2>
+        <div class="p-4 bg-gray-800 bg-opacity-70 rounded-lg">
+          <p class="text-gray-200 italic">"{{ reading.question }}"</p>
+        </div>
+      </div>
+      
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-indigo-300 mb-4">Your Cards</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {% for card in reading.cards %}
+          <div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg text-center">
+            <div class="text-xl font-bold text-purple-300 mb-3">{{ card.name }}</div>
+            <div class="text-gray-400 mb-4">{{ card.meaning }}</div>
+            <div class="w-16 h-24 bg-indigo-900 mx-auto rounded border border-indigo-700"></div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      {% if reading.ai_reading %}
+      <div>
+        <h2 class="text-2xl font-bold text-indigo-300 mb-4">Card Interpretation</h2>
+        <div class="prose prose-lg prose-invert max-w-none">
+          {{ reading.ai_reading|safe }}
+        </div>
+      </div>
+      {% else %}
+      <div>
+        <h2 class="text-2xl font-bold text-indigo-300 mb-4">Card Interpretation</h2>
+        <p class="text-gray-300 mb-6">The cards you've drawn suggest that you're at a pivotal moment in your journey. Consider how these energies might be manifesting in your life right now.</p>
+        
+        <div class="p-6 bg-indigo-900 bg-opacity-40 rounded-lg">
+          <h3 class="text-xl font-bold text-indigo-300 mb-3">Want a deeper interpretation?</h3>
+          <p class="text-gray-300 mb-4">Upgrade to premium for AI-powered insights that connect the cards to your specific question.</p>
+          <a href="{{ url_for('profile.upgrade') }}" class="inline-block px-5 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-full transition duration-300">
+            Upgrade to Premium
+          </a>
+        </div>
+      </div>
+      {% endif %}
+      
+      <div class="mt-10 flex justify-between items-center">
+        <a href="{{ url_for('readings.tarot_readings') }}" class="text-indigo-400 hover:text-indigo-300 transition duration-300">
+          <i class="fas fa-arrow-left mr-2"></i> Back to Readings
+        </a>
+        <a href="{{ url_for('readings.reading_history') }}" class="text-indigo-400 hover:text-indigo-300 transition duration-300">
+          View History <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="mt-10 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-lg p-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">Share Your Reading</h2>
+      <p class="text-gray-300 mb-6">Insights are more powerful when shared. Send this reading to a friend or share on social media.</p>
+      <div class="flex justify-center space-x-4">
+        <button class="p-3 bg-blue-700 hover:bg-blue-600 text-white rounded-full transition duration-300">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+        <button class="p-3 bg-blue-500 hover:bg-blue-400 text-white rounded-full transition duration-300">
+          <i class="fab fa-twitter"></i>
+        </button>
+        <button class="p-3 bg-pink-700 hover:bg-pink-600 text-white rounded-full transition duration-300">
+          <i class="fab fa-instagram"></i>
+        </button>
+        <button class="p-3 bg-green-700 hover:bg-green-600 text-white rounded-full transition duration-300">
+          <i class="fas fa-envelope"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
