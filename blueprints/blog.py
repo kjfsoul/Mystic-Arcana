@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from replit import db
 from datetime import datetime
+from utils.openai_client import generate_blog_post
 
 blog_bp = Blueprint('blog', __name__, url_prefix='/blog')
 
@@ -53,8 +54,7 @@ SAMPLE_POSTS = [
 
 @blog_bp.route('/')
 def blog_home():
-    # In a real application, fetch posts from database
-    # For now, using sample posts
+    # Get posts from database
     if 'blog_posts' not in db:
         db['blog_posts'] = SAMPLE_POSTS
     
@@ -87,14 +87,28 @@ def new_post():
     if 'user_id' not in session:
         return redirect(url_for('profile.login'))
     
+    # Check if user is an admin
+    is_admin = False
+    if 'users' in db and session['user_id'] in db['users']:
+        is_admin = db['users'][session['user_id']].get('email') == 'admin@mysticarcana.com'
+    
     if request.method == 'POST':
         title = request.form.get('title')
         content = request.form.get('content')
         category = request.form.get('category')
+        use_ai = request.form.get('use_ai') == 'on'
         
-        if not title or not content or not category:
-            flash('All fields are required', 'error')
-            return render_template('new_post.html')
+        if use_ai:
+            # Generate post content with AI
+            post_data = generate_blog_post(title, category)
+            content = post_data['content']
+        elif not content:
+            flash('Content is required when not using AI', 'error')
+            return render_template('new_post.html', is_admin=is_admin)
+        
+        if not title or not category:
+            flash('Title and category are required', 'error')
+            return render_template('new_post.html', is_admin=is_admin)
         
         new_post = {
             "id": str(datetime.now().timestamp()),
@@ -102,7 +116,8 @@ def new_post():
             "author": db['users'][session['user_id']]['name'],
             "date": datetime.now().strftime("%b %d, %Y"),
             "category": category,
-            "content": content
+            "content": content,
+            "ai_generated": use_ai
         }
         
         if 'blog_posts' not in db:
@@ -112,4 +127,58 @@ def new_post():
         
         return redirect(url_for('blog.blog_post', post_id=new_post['id']))
     
-    return render_template('new_post.html')
+    return render_template('new_post.html', is_admin=is_admin)
+
+@blog_bp.route('/admin/generate-batch', methods=['GET', 'POST'])
+def generate_batch():
+    """Generate a batch of AI blog posts"""
+    if 'user_id' not in session:
+        return redirect(url_for('profile.login'))
+    
+    # Ensure the user is an admin
+    if 'users' in db and session['user_id'] in db['users']:
+        if db['users'][session['user_id']].get('email') != 'admin@mysticarcana.com':
+            return redirect(url_for('blog.blog_home'))
+    else:
+        return redirect(url_for('profile.login'))
+    
+    if request.method == 'POST':
+        # Generate 5 blog posts as requested
+        blog_ideas = [
+            {"title": "Top 5 Tarot Tips for Beginners", "category": "Tarot & Oracle"},
+            {"title": "Mars Retrograde Explained: What It Means For You", "category": "Astrology"},
+            {"title": "Understanding the Major Arcana: A Deep Dive", "category": "Tarot & Oracle"},
+            {"title": "Moon Phases and Their Spiritual Significance", "category": "Spiritual Wellness"},
+            {"title": "Meditation Techniques for Enhancing Psychic Abilities", "category": "Spiritual Wellness"}
+        ]
+        
+        generated_posts = []
+        for idea in blog_ideas:
+            post_data = generate_blog_post(idea["title"], idea["category"])
+            
+            new_post = {
+                "id": str(datetime.now().timestamp()),
+                "title": idea["title"],
+                "author": "AI Mystic",
+                "date": datetime.now().strftime("%b %d, %Y"),
+                "category": idea["category"],
+                "content": post_data["content"],
+                "ai_generated": True
+            }
+            
+            generated_posts.append(new_post)
+            
+            # Add a small delay to avoid overwhelming the API
+            import time
+            time.sleep(2)
+        
+        # Add the generated posts to the database
+        if 'blog_posts' not in db:
+            db['blog_posts'] = SAMPLE_POSTS
+        
+        db['blog_posts'].extend(generated_posts)
+        
+        flash(f'Successfully generated {len(generated_posts)} blog posts', 'success')
+        return redirect(url_for('blog.blog_home'))
+    
+    return render_template('generate_batch.html')

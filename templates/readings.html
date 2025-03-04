@@ -1,78 +1,91 @@
+{% extends 'base.html' %}
 
-{% extends "base.html" %}
-
-{% block title %}Tarot Readings | Mystic Arcana{% endblock %}
+{% block title %}Tarot Readings{% endblock %}
 
 {% block content %}
-<main class="relative z-10 min-h-screen py-16">
-  <div class="container mx-auto px-4">
-    <h1 class="text-4xl font-bold text-white mb-8 text-center">Tarot Readings</h1>
-    
-    <div class="max-w-4xl mx-auto bg-gray-900 bg-opacity-80 rounded-xl overflow-hidden shadow-2xl mb-12">
-      <div class="p-8">
-        <h2 class="text-2xl font-bold text-purple-300 mb-6">Get Your Reading</h2>
-        
-        {% if session.get('user_id') %}
-          <form action="{{ url_for('readings.new_reading') }}" method="POST">
-            <div class="mb-6">
-              <label class="block text-gray-400 mb-2" for="question">What would you like guidance on?</label>
-              <textarea id="question" name="question" rows="3" placeholder="Enter your question or area of focus..."
-                     class="w-full p-3 bg-gray-800 rounded-lg border border-gray-700 text-white focus:outline-none focus:border-purple-500"></textarea>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Tarot Readings</h1>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Daily Reading Feature -->
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-header">
+                    <h3>Today's Mystic Insight</h3>
+                </div>
+                <div class="card-body">
+                    <p>Each day brings new cosmic energies. Check our AI-powered daily reading for guidance that resonates with the collective consciousness.</p>
+                    <a href="{{ url_for('readings.daily_reading') }}" class="btn btn-primary">View Today's Reading</a>
+                </div>
             </div>
-            <div class="text-center">
-              <button type="submit" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold rounded-full hover:from-purple-700 hover:to-indigo-800 transition shadow-lg">
-                Draw Your Cards
-              </button>
+
+            <!-- Personal Reading Request -->
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-header">
+                    <h3>New Personal Reading</h3>
+                </div>
+                <div class="card-body">
+                    {% if session.get('user_id') %}
+                        <form action="{{ url_for('readings.new_reading') }}" method="post">
+                            <div class="mb-3">
+                                <label for="question" class="form-label">What would you like guidance on?</label>
+                                <input type="text" class="form-control" id="question" name="question" placeholder="Enter your question or area of focus">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="useAI" name="use_ai" checked>
+                                <label class="form-check-label" for="useAI">Use AI for enhanced interpretation</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Draw Cards</button>
+                        </form>
+                    {% else %}
+                        <p>Please <a href="{{ url_for('profile.login') }}">login</a> to get a personalized reading.</p>
+                    {% endif %}
+                </div>
             </div>
-          </form>
-        {% else %}
-          <div class="text-center">
-            <p class="text-gray-300 mb-6">Please login to receive your personalized tarot reading.</p>
-            <a href="{{ url_for('profile.login') }}" class="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold rounded-full hover:from-purple-700 hover:to-indigo-800 transition shadow-lg">
-              Login
-            </a>
-          </div>
-        {% endif %}
-      </div>
+
+            {% if featured_reading %}
+            <!-- Featured AI Reading -->
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-header">
+                    <h3>Featured Reading</h3>
+                </div>
+                <div class="card-body">
+                    <h4>{{ featured_reading.question }}</h4>
+                    <div class="row mb-3">
+                        {% for card in featured_reading.cards %}
+                        <div class="col-md-4 text-center">
+                            <div class="card bg-dark border-light">
+                                <div class="card-body">
+                                    <h5>{{ card.name }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <p><em>See the full reading for detailed insights...</em></p>
+                    <a href="{{ url_for('readings.daily_reading') }}" class="btn btn-outline-light">Read More</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- About Tarot -->
+            <div class="card bg-dark text-light">
+                <div class="card-header">
+                    <h3>About Tarot Readings</h3>
+                </div>
+                <div class="card-body">
+                    <p>Tarot cards have been used for centuries as a tool for spiritual guidance and self-discovery. Our readings use a traditional 78-card deck, with each card carrying its own symbolic meaning and energy.</p>
+
+                    <p>A tarot reading can provide insights into your past, present, and potential future paths. Remember that tarot is a guide, not a fixed prediction - you always have the power to shape your destiny.</p>
+
+                    <p>With our AI-enhanced readings, we combine traditional tarot wisdom with advanced pattern recognition to offer deeper, more nuanced interpretations tailored to your specific question.</p>
+
+                    {% if session.get('user_id') %}
+                        <p>View your <a href="{{ url_for('readings.reading_history') }}">reading history</a> to track your spiritual journey.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="bg-indigo-900 bg-opacity-30 p-6 rounded-xl">
-        <h3 class="text-xl font-bold text-white mb-4">Three Card Spread</h3>
-        <p class="text-gray-300 mb-4">A versatile reading that can represent:</p>
-        <ul class="list-disc list-inside text-gray-300 space-y-2 mb-4">
-          <li>Past, Present, Future</li>
-          <li>Mind, Body, Spirit</li>
-          <li>Situation, Action, Outcome</li>
-        </ul>
-        <p class="text-gray-300">Perfect for focused questions and clarity on specific situations.</p>
-      </div>
-      
-      <div class="bg-purple-900 bg-opacity-30 p-6 rounded-xl">
-        <h3 class="text-xl font-bold text-white mb-4">Celtic Cross</h3>
-        <p class="text-gray-300 mb-4">A comprehensive 10-card spread that explores:</p>
-        <ul class="list-disc list-inside text-gray-300 space-y-2 mb-4">
-          <li>The present situation</li>
-          <li>Challenges and obstacles</li>
-          <li>Past and future influences</li>
-          <li>Hopes, fears, and potential outcomes</li>
-        </ul>
-        <p class="text-gray-300">For in-depth guidance on complex life situations.</p>
-      </div>
-      
-      <div class="bg-blue-900 bg-opacity-30 p-6 rounded-xl">
-        <h3 class="text-xl font-bold text-white mb-4">Your Reading History</h3>
-        <p class="text-gray-300 mb-4">Revisit your past readings to track how situations have evolved and how guidance has manifested in your life.</p>
-        
-        {% if session.get('user_id') %}
-          <a href="{{ url_for('readings.reading_history') }}" class="inline-block px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-600 transition">
-            View History
-          </a>
-        {% else %}
-          <p class="text-gray-400 italic">Login to access your reading history</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-</main>
+</div>
 {% endblock %}

@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Generate Blog Posts{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Generate AI Blog Posts</h1>
+    
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card bg-dark text-light">
+                <div class="card-header">
+                    <h3>Batch Generation</h3>
+                </div>
+                <div class="card-body">
+                    <p>This will generate 5 blog posts on the following topics:</p>
+                    <ul>
+                        <li>Top 5 Tarot Tips for Beginners</li>
+                        <li>Mars Retrograde Explained: What It Means For You</li>
+                        <li>Understanding the Major Arcana: A Deep Dive</li>
+                        <li>Moon Phases and Their Spiritual Significance</li>
+                        <li>Meditation Techniques for Enhancing Psychic Abilities</li>
+                    </ul>
+                    
+                    <div class="alert alert-info">
+                        <p>This process may take a few minutes to complete. Please do not refresh the page.</p>
+                    </div>
+                    
+                    <form method="POST">
+                        <button type="submit" class="btn btn-primary">Generate Posts</button>
+                        <a href="{{ url_for('blog.blog_home') }}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

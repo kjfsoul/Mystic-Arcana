@@ -1,69 +1,66 @@
+{% extends 'base.html' %}
 
-{% extends "base.html" %}
-
-{% block title %}Your Tarot Reading | Mystic Arcana{% endblock %}
+{% block title %}Tarot Reading Result{% endblock %}
 
 {% block content %}
-<main class="relative z-10 min-h-screen py-16">
-  <div class="container mx-auto px-4">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold text-white mb-6 text-center">Your Tarot Reading</h1>
-      
-      <div class="bg-gray-900 bg-opacity-80 rounded-xl overflow-hidden shadow-2xl mb-8">
-        <div class="p-8">
-          <div class="mb-6">
-            <h2 class="text-2xl font-bold text-purple-300">Your Question</h2>
-            <p class="text-white mt-2">{{ reading.question }}</p>
-          </div>
-          
-          <div class="mb-6">
-            <h2 class="text-2xl font-bold text-purple-300 mb-4">The Cards</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {% for card in reading.cards %}
-                <div class="bg-indigo-900 bg-opacity-40 p-6 rounded-lg">
-                  <div class="aspect-w-2 aspect-h-3 bg-purple-900 rounded-lg mb-4 flex items-center justify-center">
-                    <div class="text-center">
-                      <i class="fas fa-sun text-4xl text-yellow-400 mb-2"></i>
-                      <h3 class="font-bold text-white">{{ card.name }}</h3>
-                    </div>
-                  </div>
-                  <h4 class="font-bold text-white mb-2">{{ card.name }}</h4>
-                  <p class="text-gray-300">{{ card.meaning }}</p>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Your Tarot Reading</h1>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card bg-dark text-light">
+                <div class="card-header">
+                    <h3>{{ reading.question }}</h3>
                 </div>
-              {% endfor %}
+                <div class="card-body">
+                    <div class="row mb-4">
+                        {% for card in reading.cards %}
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="card bg-dark border-light">
+                                <div class="card-body">
+                                    <h5>{{ card.name }}</h5>
+                                    <p><em>{{ card.meaning }}</em></p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="interpretation">
+                        <h4>Interpretation</h4>
+
+                        {% if reading.ai_reading is defined %}
+                            <div class="ai-reading">
+                                {{ reading.ai_reading|safe }}
+                            </div>
+                        {% else %}
+                            <p>This three-card spread represents your past, present, and future energies:</p>
+
+                            <ol>
+                                <li><strong>{{ reading.cards[0].name }}</strong> - In your past, {{ reading.cards[0].meaning.lower() }} played a significant role in shaping your current situation.</li>
+                                <li><strong>{{ reading.cards[1].name }}</strong> - Currently, you are experiencing the energy of {{ reading.cards[1].meaning.lower() }} in your life.</li>
+                                <li><strong>{{ reading.cards[2].name }}</strong> - Moving forward, {{ reading.cards[2].meaning.lower() }} will likely influence your path.</li>
+                            </ol>
+
+                            <p>Remember that these cards are guideposts, not absolute predictions. Your choices and actions shape your future.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="d-flex justify-content-between">
+                        <span>Reading done on {{ reading.date }}</span>
+                        {% if reading.ai_reading is defined %}
+                            <span><i class="fas fa-robot"></i> AI-Enhanced</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-          </div>
-          
-          <div class="mb-6">
-            <h2 class="text-2xl font-bold text-purple-300 mb-4">Interpretation</h2>
-            <p class="text-gray-300 mb-4">
-              The cards you've drawn suggest a period of {{ ['transformation', 'reflection', 'growth', 'challenge', 'opportunity']|random }}. 
-              {{ reading.cards[0].name }} in your first position indicates 
-              {{ ['the energy surrounding your current situation', 'influences from your past', 'an aspect of yourself that needs attention']|random }}.
-            </p>
-            <p class="text-gray-300 mb-4">
-              {{ reading.cards[1].name }} reveals
-              {{ ['challenges you may face', 'energies supporting you', 'a possible direction to explore']|random }}.
-              This card often appears when {{ ['you need to trust your intuition', 'important choices must be made', 'external factors are influencing your path']|random }}.
-            </p>
-            <p class="text-gray-300">
-              Finally, {{ reading.cards[2].name }} suggests 
-              {{ ['a potential outcome', 'a hidden influence', 'a lesson to be learned']|random }}. 
-              Pay attention to {{ ['how this energy manifests in your life', 'subtle signs related to this card', 'opportunities for growth in this area']|random }}.
-            </p>
-          </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('readings.tarot_readings') }}" class="btn btn-secondary">New Reading</a>
+                <a href="{{ url_for('readings.reading_history') }}" class="btn btn-primary">View History</a>
+            </div>
         </div>
-      </div>
-      
-      <div class="text-center">
-        <a href="{{ url_for('readings.tarot_readings') }}" class="inline-block px-8 py-3 border-2 border-purple-500 text-purple-400 font-bold rounded-full hover:bg-purple-900 hover:bg-opacity-30 hover:text-white transition mr-4">
-          New Reading
-        </a>
-        <a href="{{ url_for('readings.reading_history') }}" class="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold rounded-full hover:from-purple-700 hover:to-indigo-800 transition">
-          View History
-        </a>
-      </div>
     </div>
-  </div>
-</main>
+</div>
 {% endblock %}
