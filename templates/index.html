@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+
+{% block title %}Mystic Arcana - Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to Mystic Arcana</h1>
+    <p>Discover the mysteries of the universe through tarot readings and astrological insights</p>
+    <a href="{{ url_for('readings') }}" class="btn">Get a Reading</a>
+</section>
+
+<section class="features">
+    <div class="feature">
+        <h2>Tarot Readings</h2>
+        <p>Gain insight into your past, present, and future with our tarot readings</p>
+    </div>
+    <div class="feature">
+        <h2>Astrological Insights</h2>
+        <p>Understand how the planets influence your life and personality</p>
+    </div>
+    <div class="feature">
+        <h2>Spiritual Guidance</h2>
+        <p>Connect with your higher self and find your true path</p>
+    </div>
+</section>
+{% endblock %}

@@ -63,3 +63,35 @@
   </div>
 </main>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Mystic Arcana - Blog{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Mystical Blog</h1>
+</section>
+
+<section class="blog-posts">
+    <article class="blog-post">
+        <h2>Understanding the Major Arcana</h2>
+        <p class="post-meta">Posted by Admin on June 1, 2024</p>
+        <p>The Major Arcana cards represent significant life events and spiritual lessons...</p>
+        <a href="#" class="btn-small">Read More</a>
+    </article>
+    
+    <article class="blog-post">
+        <h2>The Influence of Mercury Retrograde</h2>
+        <p class="post-meta">Posted by Admin on May 15, 2024</p>
+        <p>When Mercury goes retrograde, communication and technology may be affected...</p>
+        <a href="#" class="btn-small">Read More</a>
+    </article>
+    
+    <article class="blog-post">
+        <h2>Meditation Techniques for Spiritual Growth</h2>
+        <p class="post-meta">Posted by Admin on May 1, 2024</p>
+        <p>These meditation practices can help you connect with your higher self...</p>
+        <a href="#" class="btn-small">Read More</a>
+    </article>
+</section>
+{% endblock %}

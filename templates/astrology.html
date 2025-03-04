@@ -89,3 +89,30 @@
   </div>
 </main>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Mystic Arcana - Astrology{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Astrological Insights</h1>
+</section>
+
+<section class="astrology-options">
+    <div class="astrology-option">
+        <h2>Daily Horoscope</h2>
+        <p>Your daily cosmic forecast</p>
+        <a href="#" class="btn">View Horoscope</a>
+    </div>
+    <div class="astrology-option">
+        <h2>Birth Chart</h2>
+        <p>Discover your celestial blueprint</p>
+        <a href="#" class="btn">Generate Chart</a>
+    </div>
+    <div class="astrology-option">
+        <h2>Compatibility</h2>
+        <p>Explore relationship dynamics</p>
+        <a href="#" class="btn">Check Compatibility</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Create a default .env file if it doesn't exist
@@ -21,6 +20,5 @@ export $(grep -v '^#' .env | xargs)
 echo "Initializing database..."
 python init_db.py
 
-# Start the application
-echo "Starting Mystic Arcana application..."
-python app.py
+pip install -r requirements.txt
+python main.py

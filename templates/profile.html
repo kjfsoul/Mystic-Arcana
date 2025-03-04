@@ -80,3 +80,62 @@
   </div>
 </main>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Mystic Arcana - Profile{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Your Profile</h1>
+</section>
+
+<section class="profile-section">
+    <div class="profile-info">
+        <h2>Account Information</h2>
+        <form class="profile-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="User Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="user@example.com">
+            </div>
+            <div class="form-group">
+                <label for="zodiac">Zodiac Sign:</label>
+                <select id="zodiac" name="zodiac">
+                    <option value="aries">Aries</option>
+                    <option value="taurus">Taurus</option>
+                    <option value="gemini">Gemini</option>
+                    <option value="cancer">Cancer</option>
+                    <option value="leo">Leo</option>
+                    <option value="virgo">Virgo</option>
+                    <option value="libra">Libra</option>
+                    <option value="scorpio">Scorpio</option>
+                    <option value="sagittarius">Sagittarius</option>
+                    <option value="capricorn">Capricorn</option>
+                    <option value="aquarius">Aquarius</option>
+                    <option value="pisces">Pisces</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Update Profile</button>
+        </form>
+    </div>
+    
+    <div class="reading-history">
+        <h2>Reading History</h2>
+        <div class="history-item">
+            <p>Three Card Reading - June 5, 2024</p>
+            <a href="#" class="btn-small">View</a>
+        </div>
+        <div class="history-item">
+            <p>Daily Card - June 3, 2024</p>
+            <a href="#" class="btn-small">View</a>
+        </div>
+        <div class="history-item">
+            <p>Celtic Cross - May 28, 2024</p>
+            <a href="#" class="btn-small">View</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

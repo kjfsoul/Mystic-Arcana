@@ -154,3 +154,30 @@
   </div>
 </div>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Mystic Arcana - Tarot Readings{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Tarot Readings</h1>
+</section>
+
+<section class="reading-options">
+    <div class="reading-option">
+        <h2>Daily Card</h2>
+        <p>A single card to guide your day</p>
+        <a href="#" class="btn">Draw a Card</a>
+    </div>
+    <div class="reading-option">
+        <h2>Three Card Spread</h2>
+        <p>Past, Present, Future insights</p>
+        <a href="#" class="btn">Get Reading</a>
+    </div>
+    <div class="reading-option">
+        <h2>Celtic Cross</h2>
+        <p>In-depth analysis of your situation</p>
+        <a href="#" class="btn">Get Reading</a>
+    </div>
+</section>
+{% endblock %}
