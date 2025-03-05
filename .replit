@@ -6,11 +6,11 @@ hidden = [".pythonlibs", ".config"]
 channel = "stable-23_05"
 
 [deployment]
-run = "python app.py"  # Simplified to avoid shell script redundancy
+run = ["sh", "-c", "python app.py"]
 deploymentTarget = "autoscale"  # Changed to Replit’s Autoscale (remove if not needed)
 ignorePorts = false
 externalPort = 80
-build = "bash build_and_run.sh"  # Simplified build command
+build = ["sh", "-c", "bash build_and_run.sh"]
 
 [env]
 REPLIT_DISABLE_PACKAGE_LAYER = "1"
