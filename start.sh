@@ -1,4 +1,9 @@
 #!/bin/bash
-python app.py &  # Start Flask backend on port 5000
-npm start &      # Start Node.js frontend on port 3000
-wait
+
+# Kill any process running on port 3000
+echo "Checking for processes on port 3000..."
+npx kill-port 3000 || true
+
+# Start the React application
+echo "Starting React app..."
+PORT=3000 npm start

@@ -1,5 +1,4 @@
-
-run = "PORT=3000 npm start"
+                        run = "PORT=3000 npm start"
 language = "nodejs"
 modules = ["nodejs-20"]
 
@@ -9,3 +8,7 @@ NODE_ENV = "development"
 [[ports]]
 localPort = 3000
 externalPort = 3000
+
+[[ports]]
+localPort = 3001
+externalPort = 80
