@@ -1,7 +1,6 @@
 {pkgs}: {
-  deps = [
-    pkgs.npm-check-updates
-    pkgs.emacsPackages.npm
-    pkgs.npm-check
+  deps = with pkgs; [
+    python310  # Use Python 3.10 to match your .replit configuration
+    python310Packages.pip  # For installing Python packages via requirements.txt
   ];
 }

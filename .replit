@@ -1,15 +1,17 @@
-
 run = "python app.py"
-modules = ["python-3.10:v18-20230807-322e88b"]
+language = "python3"
+modules = ["python-3.10:v18-20230807-322e88b"] # Match your Python version
 hidden = [".pythonlibs", ".config"]
 
 [nix]
 channel = "stable-23_05"
 
 [deployment]
-run = ["sh", "-c", "python app.py"]
-deploymentTarget = "cloudrun"
+run = "python app.py"
+deploymentTarget = "autoscale"
 ignorePorts = false
+externalPort = 80
+build = "bash build_and_run.sh"
 
 [env]
 REPLIT_DISABLE_PACKAGE_LAYER = "1"
