@@ -5,6 +5,7 @@ import sys
 import os
 import time
 from datetime import datetime
+import importlib
 
 def test_deployment():
     """Test if the deployment is functioning properly"""
@@ -38,6 +39,17 @@ def test_deployment():
                 all_passed = False
         except Exception as e:
             print(f"❌ {route} - Error: {str(e)}")
+            all_passed = False
+    
+    # Test dependencies import
+    print("\nTesting dependencies...")
+    dependencies = ["flask", "openai", "schedule", "replit", "requests", "stripe"]
+    for dep in dependencies:
+        try:
+            importlib.import_module(dep)
+            print(f"✅ {dep} import successful")
+        except ImportError as e:
+            print(f"❌ {dep} import failed: {str(e)}")
             all_passed = False
     
     # Test content generation
