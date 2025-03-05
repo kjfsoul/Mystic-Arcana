@@ -1,27 +1,11 @@
-run = "npx kill-port 3000 || true && npm start"
+
+run = "PORT=3000 npm start"
 language = "nodejs"
 modules = ["nodejs-20"]
-hidden = [".config", ".pythonlibs"]
 
 [env]
-PORT = "3000"
-
-[deployment]
-run = ["sh", "-c", "npm start"]
-deploymentTarget = "cloudrun"
-build = "npm run build"
-
-[languages.javascript]
-pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
-  [languages.javascript.languageServer]
-start = ["typescript-language-server", "--stdio"]
+NODE_ENV = "development"
 
 [[ports]]
 localPort = 3000
-externalPort = 80
-
-[nix]
-channel = "stable-24_05"
-
-[workflows]
-runButton = "Run App"
+externalPort = 3000
