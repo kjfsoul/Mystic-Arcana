@@ -1,45 +1,24 @@
-
-entrypoint="app.py"
-hidden=[".config"]
-modules = ["web:v2-20230623-0b7a606", "python-3.11"]
-
-run = ["python3", "app.py"]
+run = "python app.py"
+modules = ["python-3.10:v18-20230807-322e88b"]
+hidden = [".pythonlibs", ".config"]
 
 [nix]
-channel = "stable-23_11"
+channel = "stable-23_05"
 
 [deployment]
 run = ["sh", "-c", "python app.py"]
 deploymentTarget = "cloudrun"
-build = ["sh", "-c", "chmod +x build_and_run.sh && ./build_and_run.sh"]
 ignorePorts = false
+externalPort = 80
+build = ["sh", "-c", "./build_and_run.sh"]
 
-[objectStorage]
-defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
-
-[workflows]
-runButton = "Run Flask App"
-
-[[workflows.workflow]]
-name = "Run Flask App"
-author = 38636460
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 app.py"
-
-[[workflows.workflow]]
-name = "Run Flask App"
-author = 38636460
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 app.py"
+[env]
+REPLIT_DISABLE_PACKAGE_LAYER = "1"
+PYTHONPATH = "${REPL_HOME}"
 
 [[ports]]
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 8080
-externalPort = 8080
+[objectStorage]
+defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
