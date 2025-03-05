@@ -74,73 +74,17 @@ def inject_user_premium_status():
 
     return {'is_premium': premium}
 
-def start_scheduler_in_background():
-    """Start the content scheduler as a background process"""
-    import subprocess
-    import os
-    import sys
-    import threading
+# Add error handler for 404
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html', error="Page not found"), 404
 
-    try:
-        # Check if we're in a production environment (Replit deployment)
-        if os.environ.get('REPL_SLUG') or os.environ.get('REPLIT_DEPLOYMENT'):
-            print("Starting content scheduler in background...")
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-
-            # Check if the scheduler is already running
-            try:
-                with open('scheduler.pid', 'r') as f:
-                    pid = int(f.read().strip())
-                    try:
-                        # Check if process is still running
-                        os.kill(pid, 0)
-                        print(f"Scheduler already running with PID {pid}")
-                        return
-                    except OSError:
-                        # Process not running, continue with startup
-                        pass
-            except FileNotFoundError:
-                # PID file doesn't exist, continue with startup
-                pass
-
-            # Start the scheduler and save PID
-            if os.environ.get('REPLIT_DEPLOYMENT'):
-                # In deployment, use threading to avoid issues with subprocess
-                def run_scheduler():
-                    with open('scheduler.log', 'a') as log_file:
-                        sys.stdout = log_file
-                        sys.stderr = log_file
-                        import cron_jobs
-                        cron_jobs.run_scheduler()
-
-                print("Starting scheduler in deployment mode using threading")
-                scheduler_thread = threading.Thread(target=run_scheduler)
-                scheduler_thread.daemon = True
-                scheduler_thread.start()
-                print("Content scheduler started in background thread!")
-            else:
-                # Start the scheduler and save PID (development mode)
-                process = subprocess.Popen([
-                    'python3', 
-                    os.path.join(script_dir, 'cron_jobs.py')
-                ], 
-                stdout=open('scheduler.log', 'a'),
-                stderr=subprocess.STDOUT,
-                start_new_session=True)
-
-                # Save PID to file for future reference
-                with open('scheduler.pid', 'w') as f:
-                    f.write(str(process.pid))
-
-                print(f"Content scheduler started with PID {process.pid}!")
-    except Exception as e:
-        print(f"Failed to start content scheduler: {e}")
+# Add error handler for 500
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('error.html', error="Internal server error"), 500
 
 if __name__ == '__main__':
-    # Only start the scheduler in the main process when deployed
-    if os.environ.get('REPL_ID'):
-        start_scheduler_in_background()
-
     # Ensure the Flask app runs on the correct host and port for deployment
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)

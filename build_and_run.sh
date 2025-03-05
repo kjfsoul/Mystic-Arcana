@@ -1,10 +1,16 @@
 #!/bin/bash
-echo "Installing dependencies..."
-pip install -r requirements.txt
+echo "Starting Mystic Arcana application..."
 
+# Install dependencies if needed
+if [ ! -f ".dependencies_installed" ]; then
+  echo "Installing dependencies..."
+  pip install -r requirements.txt
+  touch .dependencies_installed
+fi
+
+# Setting up environment...
 echo "Setting up environment..."
 python init_db.py
-
 
 # Generate fresh content (initial content)
 echo "Generating fresh content..."
@@ -23,4 +29,5 @@ chmod +x setup_automation.sh
 echo "Running deployment tests..."
 python test_deployment.py
 
-echo "Deployment setup complete! Application is ready to start."
+# Run the Flask application
+exec python app.py
