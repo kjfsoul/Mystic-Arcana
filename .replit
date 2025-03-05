@@ -1,22 +1,37 @@
-run = "python app.py"
+run = "npm start"
 language = "python3"
-modules = ["python-3.10:v18-20230807-322e88b"] # Match your Python version
+modules = ["nix", "nodejs-20", "python-3.10:v18-20230807-322e88b"]
 hidden = [".pythonlibs", ".config"]
-
 [nix]
 channel = "stable-23_05"
-
 [deployment]
-run = "python app.py"
+run = ["sh", "-c", "python app.py"]
 deploymentTarget = "autoscale"
 ignorePorts = false
-externalPort = 80
 build = "bash build_and_run.sh"
-
 [env]
 REPLIT_DISABLE_PACKAGE_LAYER = "1"
 PYTHONPATH = "${REPL_HOME}"
-
+[[ports]]
+localPort = 3000
+externalPort = 3000
+[[ports]]
+localPort = 3001
+externalPort = 3001
+[[ports]]
+localPort = 3002
+externalPort = 3002
 [[ports]]
 localPort = 5000
 externalPort = 80
+[[ports]]
+localPort = 35127
+externalPort = 3003
+[workflows]
+runButton = "Run App"
+[[workflows.workflow]]
+name = "Run App"
+author = 38636460
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash build_and_run.sh"

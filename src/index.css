@@ -1,0 +1,23 @@
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  /* Commented out until stars.png and twinkling.png are added to static/ */
+  /* .stars {
+    background-image: url('../static/stars.png');
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  } */
+  /* .twinkling {
+    background-image: url('../static/twinkling.png');
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  } */

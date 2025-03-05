@@ -1,10 +1,9 @@
-from flask import Flask, render_template, redirect, url_for, request, session, jsonify
-from replit import db
+from flask import Flask, render_template, request, session, jsonify
 import os
-import json
 import stripe
-from datetime import datetime
 from blueprints.home import home_bp
+from os import environ as env
+
 from blueprints.readings import readings_bp
 from blueprints.astrology import astrology_bp
 from blueprints.profile import profile_bp
@@ -18,7 +17,6 @@ app = Flask(__name__,
             template_folder='templates')
 
 # Load secrets from Replit Secrets
-from os import environ as env
 app.secret_key = env.get('SECRET_KEY', 'mystic_arcana_secret_key')
 stripe.api_key = env.get('STRIPE_SECRET_KEY', 'sk_test_your_test_key')
 webhook_secret = env.get('STRIPE_WEBHOOK_SECRET', 'whsec_test_key')
