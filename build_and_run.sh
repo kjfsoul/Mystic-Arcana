@@ -1,18 +1,10 @@
-
 #!/bin/bash
-
-# Deployment script for Mystic Arcana
-set -e  # Exit on any error
-
-echo "Starting Mystic Arcana deployment setup..."
-
-# Install dependencies
 echo "Installing dependencies..."
 pip install -r requirements.txt
 
-# Initialize the database if needed
-echo "Initializing database..."
+echo "Setting up environment..."
 python init_db.py
+
 
 # Generate fresh content (initial content)
 echo "Generating fresh content..."
