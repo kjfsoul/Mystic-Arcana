@@ -11,7 +11,7 @@ channel = "stable-23_11"
 [deployment]
 publicDir = "/"
 deploymentTarget = "static"
-run = ["sh", "-c", "python main.py"]
+run = ["sh", "-c", "python app.py"]
 
 [objectStorage]
 defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
