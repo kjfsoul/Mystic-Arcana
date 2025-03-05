@@ -4,8 +4,10 @@ import stripe
 from replit import db
 from datetime import datetime, timedelta
 
-# Initialize Stripe
-stripe.api_key = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_your_test_key')
+# Initialize Stripe - Using Replit Secrets for API key
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
+if not stripe.api_key:
+    print("WARNING: Stripe API key not found in secrets. Subscription features will not work.")
 
 def create_checkout_session(user_id, success_url, cancel_url):
     """

@@ -10,6 +10,7 @@ from blueprints.readings import readings_bp
 from blueprints.astrology import astrology_bp
 from blueprints.profile import profile_bp
 from blueprints.blog import blog_bp
+from blueprints.subscription import subscription_bp
 from utils.subscription import handle_successful_subscription
 
 app = Flask(__name__, 
@@ -26,6 +27,7 @@ app.register_blueprint(readings_bp)
 app.register_blueprint(astrology_bp)
 app.register_blueprint(profile_bp)
 app.register_blueprint(blog_bp)
+app.register_blueprint(subscription_bp)
 
 @app.route('/webhook', methods=['POST'])
 def webhook():

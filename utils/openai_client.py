@@ -1,4 +1,3 @@
-
 import os
 import openai
 import json
@@ -32,35 +31,35 @@ def generate_tarot_reading(question, num_cards=3):
     """
     from blueprints.readings import TAROT_CARDS
     import random
-    
+
     # Select random cards for the reading
     cards = random.sample(TAROT_CARDS, num_cards)
     cards_info = ", ".join([f"{card['name']} ({card['meaning']})" for card in cards])
-    
+
     prompt = f"""
     Generate a detailed tarot card reading for the following question: "{question}"
-    
+
     The cards drawn are:
     {cards_info}
-    
+
     Provide a thorough interpretation of each card in this specific context, 
     their relationships to each other, and an overall insight.
     Format your response in clear paragraphs with HTML formatting.
     """
-    
+
     reading = generate_completion(prompt, max_tokens=1500)
-    
+
     # Store the results in the database
     if 'ai_readings' not in db:
         db['ai_readings'] = []
-    
+
     reading_entry = {
         "question": question,
         "cards": [card["name"] for card in cards],
         "reading": reading,
         "timestamp": import_datetime().now().strftime("%Y-%m-%d %H:%M:%S")
     }
-    
+
     db['ai_readings'].append(reading_entry)
     return {"cards": cards, "reading": reading}
 
@@ -74,18 +73,18 @@ def generate_astrology_insight(zodiac_sign):
     Focus on current celestial patterns and their influence.
     Format your response in clear paragraphs with HTML formatting.
     """
-    
+
     insight = generate_completion(prompt, max_tokens=1000)
-    
+
     # Store in database
     if 'ai_horoscopes' not in db:
         db['ai_horoscopes'] = {}
-    
+
     db['ai_horoscopes'][zodiac_sign.lower()] = {
         "content": insight,
         "generated_at": import_datetime().now().strftime("%Y-%m-%d %H:%M:%S")
     }
-    
+
     return insight
 
 def generate_blog_post(topic, category):
@@ -99,19 +98,19 @@ def generate_blog_post(topic, category):
     - 3-4 main sections with subheadings
     - Practical advice or insights
     - A thoughtful conclusion
-    
+
     Format with HTML tags (<h3> for subheadings, <p> for paragraphs).
     Total length should be 800-1000 words.
-    
+
     Use SEO best practices with:
     - Natural keyword placement
     - Short paragraphs (3-4 sentences)
     - Engaging subheadings
     - Include a meta description of 150-160 characters
     """
-    
+
     content = generate_completion(prompt, max_tokens=2500)
-    
+
     return {
         "title": topic,
         "category": category,
@@ -125,37 +124,37 @@ def generate_celtic_cross_reading(question):
     """
     from blueprints.readings import TAROT_CARDS
     import random
-    
+
     # Select 10 random cards for the Celtic Cross spread
     cards = random.sample(TAROT_CARDS, 10)
-    
+
     positions = [
         "Present", "Challenge", "Past", "Future", 
         "Above (Conscious)", "Below (Unconscious)", 
         "Advice", "External Influences", 
         "Hopes/Fears", "Outcome"
     ]
-    
+
     cards_info = ""
     for i, (card, position) in enumerate(zip(cards, positions)):
         cards_info += f"{i+1}. {position}: {card['name']} ({card['meaning']})\n"
-    
+
     prompt = f"""
     Generate a detailed Celtic Cross tarot reading for the question: "{question}"
-    
+
     The cards drawn are:
     {cards_info}
-    
+
     Include an explanation of each card position in the Celtic Cross spread.
     Then provide a thorough interpretation of each card in its position.
     Finally, synthesize the cards into a cohesive reading that addresses the question.
-    
+
     Format your response in clear paragraphs with HTML formatting, using 
     <h3> tags for sections and <p> for paragraphs.
     """
-    
+
     reading = generate_completion(prompt, max_tokens=2000)
-    
+
     return {"cards": cards, "reading": reading}
 
 def generate_detailed_reading(question, cards=5):
@@ -164,30 +163,30 @@ def generate_detailed_reading(question, cards=5):
     """
     from blueprints.readings import TAROT_CARDS
     import random
-    
+
     # Select random cards for the reading
     selected_cards = random.sample(TAROT_CARDS, cards)
-    
+
     cards_info = ""
     for i, card in enumerate(selected_cards):
         cards_info += f"{i+1}. {card['name']} ({card['meaning']})\n"
-    
+
     prompt = f"""
     Generate a detailed tarot reading for the following question: "{question}"
-    
+
     The {cards} cards drawn are:
     {cards_info}
-    
+
     Provide a thorough interpretation of each card and its position in the spread.
     Explain how the cards relate to each other and create a narrative.
     Conclude with specific insights and guidance related to the question.
-    
+
     Format your response in clear paragraphs with HTML formatting,
     using <h3> tags for each card's section and <p> for paragraphs.
     """
-    
+
     reading = generate_completion(prompt, max_tokens=1800)
-    
+
     return {"cards": selected_cards, "reading": reading}
 
 def generate_seo_optimized_blog_posts():
@@ -221,14 +220,14 @@ def generate_seo_optimized_blog_posts():
             "keywords": "minor arcana, tarot suits, pentacles, cups, swords, wands, tarot meanings"
         }
     ]
-    
+
     generated_posts = []
-    
+
     for topic in blog_topics:
         prompt = f"""
         Generate a detailed blog post about "{topic['title']}" for the category "{topic['category']}".
         Keywords to include naturally: {topic['keywords']}
-        
+
         The blog should follow SEO best practices with:
         - A compelling meta description (150-160 characters)
         - An attention-grabbing introduction with the primary keyword
@@ -236,15 +235,15 @@ def generate_seo_optimized_blog_posts():
         - Short, scannable paragraphs (3-4 sentences)
         - Bullet points or numbered lists where appropriate
         - A clear call-to-action conclusion
-        
+
         Format with HTML tags (<h3> for subheadings, <p> for paragraphs, <ul>/<li> for lists).
         Total length should be 1000-1500 words.
-        
+
         Also include a meta description in a <meta_description> tag at the beginning.
         """
-        
+
         content = generate_completion(prompt, max_tokens=3000)
-        
+
         # Extract meta description if present
         meta_description = ""
         if "<meta_description>" in content and "</meta_description>" in content:
@@ -252,7 +251,7 @@ def generate_seo_optimized_blog_posts():
             end = content.find("</meta_description>")
             meta_description = content[start:end].strip()
             content = content.replace(content[start-len("<meta_description>"):end+len("</meta_description>")], "")
-        
+
         post = {
             "title": topic["title"],
             "category": topic["category"],
@@ -263,12 +262,14 @@ def generate_seo_optimized_blog_posts():
             "date": import_datetime().now().strftime("%b %d, %Y"),
             "timestamp": import_datetime().now().strftime("%Y-%m-%d %H:%M:%S")
         }
-        
+
         generated_posts.append(post)
-    
+
     return generated_posts
 
 def import_datetime():
     """Helper function to avoid circular imports"""
     from datetime import datetime
     return datetime
+
+from utils.openai_client import generate_tarot_reading, generate_detailed_reading, generate_celtic_cross_reading
