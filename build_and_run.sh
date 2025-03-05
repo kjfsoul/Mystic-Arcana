@@ -31,3 +31,20 @@ python test_deployment.py
 
 # Run the Flask application
 exec python app.py
+#!/bin/bash
+
+# Kill any process running on port 3000
+echo "Checking for processes on port 3000..."
+npx kill-port 3000 || true
+
+# Install dependencies
+echo "Installing dependencies..."
+npm install --force
+
+# Build the React app
+echo "Building React app..."
+npm run build
+
+# Start the server
+echo "Starting server..."
+npm start
