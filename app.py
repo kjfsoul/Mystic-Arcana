@@ -86,14 +86,37 @@ def start_scheduler_in_background():
         if os.environ.get('REPL_SLUG') and os.environ.get('REPL_OWNER'):
             print("Starting content scheduler in background...")
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            subprocess.Popen([
+            
+            # Check if the scheduler is already running
+            try:
+                with open('scheduler.pid', 'r') as f:
+                    pid = int(f.read().strip())
+                    try:
+                        # Check if process is still running
+                        os.kill(pid, 0)
+                        print(f"Scheduler already running with PID {pid}")
+                        return
+                    except OSError:
+                        # Process not running, continue with startup
+                        pass
+            except FileNotFoundError:
+                # PID file doesn't exist, continue with startup
+                pass
+                
+            # Start the scheduler and save PID
+            process = subprocess.Popen([
                 'python3', 
                 os.path.join(script_dir, 'cron_jobs.py')
             ], 
             stdout=open('scheduler.log', 'a'),
             stderr=subprocess.STDOUT,
             start_new_session=True)
-            print("Content scheduler started!")
+            
+            # Save PID to file for future reference
+            with open('scheduler.pid', 'w') as f:
+                f.write(str(process.pid))
+                
+            print(f"Content scheduler started with PID {process.pid}!")
     except Exception as e:
         print(f"Failed to start content scheduler: {e}")
 

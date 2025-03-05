@@ -125,3 +125,12 @@
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX'); // Replace with your actual Google Analytics ID
+</script>
+<!-- End Google Analytics -->

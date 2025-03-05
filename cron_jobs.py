@@ -28,12 +28,21 @@ def run_scheduler():
     # Schedule the job to run at midnight UTC
     schedule.every().day.at("00:00").do(job)
     
+    # Run the job once on startup to ensure content is available
+    print("Running initial content generation on startup...")
+    job()
+    
     # Run the scheduler loop
     while True:
         schedule.run_pending()
         time.sleep(60)  # Check every minute
 
 if __name__ == "__main__":
+    # Redirect output to scheduler.log
+    log_file = open('scheduler.log', 'a')
+    sys.stdout = log_file
+    sys.stderr = log_file
+    
     if len(sys.argv) > 1 and sys.argv[1] == "--run-once":
         # Run the job once for testing
         job()
