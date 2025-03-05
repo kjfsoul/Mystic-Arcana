@@ -9,8 +9,9 @@ run = ["python3", "app.py"]
 channel = "stable-23_11"
 
 [deployment]
-run = ["python3", "app.py"]
+run = ["sh", "-c", "python app.py"]
 deploymentTarget = "cloudrun"
+build = ["sh", "-c", "chmod +x build_and_run.sh && ./build_and_run.sh"]
 
 [objectStorage]
 defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
