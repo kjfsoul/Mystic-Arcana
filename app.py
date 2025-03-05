@@ -17,9 +17,19 @@ app = Flask(__name__,
             static_folder='static',
             template_folder='templates')
 
-app.secret_key = os.environ.get('SECRET_KEY', 'mystic_arcana_secret_key')
-stripe.api_key = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_your_test_key')
-webhook_secret = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_test_key')
+# Load secrets from Replit Secrets
+from os import environ as env
+app.secret_key = env.get('SECRET_KEY', 'mystic_arcana_secret_key')
+stripe.api_key = env.get('STRIPE_SECRET_KEY', 'sk_test_your_test_key')
+webhook_secret = env.get('STRIPE_WEBHOOK_SECRET', 'whsec_test_key')
+openai_api_key = env.get('OPENAI_API_KEY', 'your_openai_api_key')
+
+# Log startup configuration (without sensitive values)
+print("Flask app starting with configuration:")
+print(f"- SECRET_KEY: {'[Set]' if 'SECRET_KEY' in env else '[Using Default]'}")
+print(f"- STRIPE_SECRET_KEY: {'[Set]' if 'STRIPE_SECRET_KEY' in env else '[Using Default]'}")
+print(f"- STRIPE_WEBHOOK_SECRET: {'[Set]' if 'STRIPE_WEBHOOK_SECRET' in env else '[Using Default]'}")
+print(f"- OPENAI_API_KEY: {'[Set]' if 'OPENAI_API_KEY' in env else '[Using Default]'}")
 
 # Register blueprints
 app.register_blueprint(home_bp)
