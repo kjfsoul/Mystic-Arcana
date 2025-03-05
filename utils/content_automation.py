@@ -56,6 +56,16 @@ def generate_daily_content():
     for sign in zodiac_signs:
         try:
             horoscope_text = generate_astrology_insight(sign)
+            
+            # Store the generated horoscope in the database
+            if 'zodiac_horoscopes' not in db:
+                db['zodiac_horoscopes'] = {}
+            
+            if today not in db['zodiac_horoscopes']:
+                db['zodiac_horoscopes'][today] = {}
+                
+            db['zodiac_horoscopes'][today][sign.lower()] = horoscope_text
+            
             print(f"✅ Generated horoscope for {sign}")
             # Add a small delay to avoid API rate limits
             import time

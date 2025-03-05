@@ -5,6 +5,7 @@ import sys
 import time
 import schedule
 from datetime import datetime
+from replit import db
 from utils.content_automation import generate_daily_content
 
 def job():
