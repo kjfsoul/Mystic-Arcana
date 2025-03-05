@@ -80,10 +80,11 @@ def start_scheduler_in_background():
     import subprocess
     import os
     import sys
+    import threading
     
     try:
         # Check if we're in a production environment (Replit deployment)
-        if os.environ.get('REPL_SLUG') and os.environ.get('REPL_OWNER'):
+        if os.environ.get('REPL_SLUG') or os.environ.get('REPLIT_DEPLOYMENT'):
             print("Starting content scheduler in background...")
             script_dir = os.path.dirname(os.path.abspath(__file__))
             
@@ -104,19 +105,35 @@ def start_scheduler_in_background():
                 pass
                 
             # Start the scheduler and save PID
-            process = subprocess.Popen([
-                'python3', 
-                os.path.join(script_dir, 'cron_jobs.py')
-            ], 
-            stdout=open('scheduler.log', 'a'),
-            stderr=subprocess.STDOUT,
-            start_new_session=True)
-            
-            # Save PID to file for future reference
-            with open('scheduler.pid', 'w') as f:
-                f.write(str(process.pid))
+            if os.environ.get('REPLIT_DEPLOYMENT'):
+                # In deployment, use threading to avoid issues with subprocess
+                def run_scheduler():
+                    with open('scheduler.log', 'a') as log_file:
+                        sys.stdout = log_file
+                        sys.stderr = log_file
+                        import cron_jobs
+                        cron_jobs.run_scheduler()
                 
-            print(f"Content scheduler started with PID {process.pid}!")
+                print("Starting scheduler in deployment mode using threading")
+                scheduler_thread = threading.Thread(target=run_scheduler)
+                scheduler_thread.daemon = True
+                scheduler_thread.start()
+                print("Content scheduler started in background thread!")
+            else:
+                # Start the scheduler and save PID (development mode)
+                process = subprocess.Popen([
+                    'python3', 
+                    os.path.join(script_dir, 'cron_jobs.py')
+                ], 
+                stdout=open('scheduler.log', 'a'),
+                stderr=subprocess.STDOUT,
+                start_new_session=True)
+                
+                # Save PID to file for future reference
+                with open('scheduler.pid', 'w') as f:
+                    f.write(str(process.pid))
+                    
+                print(f"Content scheduler started with PID {process.pid}!")
     except Exception as e:
         print(f"Failed to start content scheduler: {e}")
 
@@ -125,4 +142,6 @@ if __name__ == '__main__':
     if os.environ.get('REPL_ID'):
         start_scheduler_in_background()
     
-    app.run(host='0.0.0.0', port=8080)
+    # Use port 5000 for Autoscale deployment
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)

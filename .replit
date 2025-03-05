@@ -12,6 +12,7 @@ channel = "stable-23_11"
 run = ["sh", "-c", "python app.py"]
 deploymentTarget = "cloudrun"
 build = ["sh", "-c", "chmod +x build_and_run.sh && ./build_and_run.sh"]
+ignorePorts = false
 
 [objectStorage]
 defaultBucketID = "replit-objstore-cbc83954-3b21-4c0c-91b9-6ec6f5061ad8"
@@ -36,5 +37,5 @@ task = "shell.exec"
 args = "python3 app.py"
 
 [[ports]]
-localPort = 8080
+localPort = 5000
 externalPort = 80
