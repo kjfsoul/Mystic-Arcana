@@ -64,5 +64,31 @@ def inject_user_premium_status():
     
     return {'is_premium': premium}
 
+def start_scheduler_in_background():
+    """Start the content scheduler as a background process"""
+    import subprocess
+    import os
+    import sys
+    
+    try:
+        # Check if we're in a production environment (Replit deployment)
+        if os.environ.get('REPL_SLUG') and os.environ.get('REPL_OWNER'):
+            print("Starting content scheduler in background...")
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            subprocess.Popen([
+                'python3', 
+                os.path.join(script_dir, 'cron_jobs.py')
+            ], 
+            stdout=open('scheduler.log', 'a'),
+            stderr=subprocess.STDOUT,
+            start_new_session=True)
+            print("Content scheduler started!")
+    except Exception as e:
+        print(f"Failed to start content scheduler: {e}")
+
 if __name__ == '__main__':
+    # Only start the scheduler in the main process when deployed
+    if os.environ.get('REPL_ID'):
+        start_scheduler_in_background()
+    
     app.run(host='0.0.0.0', port=8080)

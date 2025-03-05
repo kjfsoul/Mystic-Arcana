@@ -3,11 +3,12 @@
 import os
 import sys
 import time
+import schedule
 from datetime import datetime
 from utils.content_automation import generate_daily_content
 
-def run_content_update():
-    """Run the content update process and log results"""
+def job():
+    """Daily content generation job"""
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Starting automated content update...")
     
     try:
@@ -18,5 +19,23 @@ def run_content_update():
     
     print("----------------------------------------")
 
+def run_scheduler():
+    """Run the scheduler process"""
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Content automation scheduler started")
+    print("Scheduled to run daily at 12:00 AM UTC")
+    
+    # Schedule the job to run at midnight UTC
+    schedule.every().day.at("00:00").do(job)
+    
+    # Run the scheduler loop
+    while True:
+        schedule.run_pending()
+        time.sleep(60)  # Check every minute
+
 if __name__ == "__main__":
-    run_content_update()
+    if len(sys.argv) > 1 and sys.argv[1] == "--run-once":
+        # Run the job once for testing
+        job()
+    else:
+        # Start the scheduler
+        run_scheduler()

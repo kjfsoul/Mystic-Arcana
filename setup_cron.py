@@ -2,36 +2,34 @@
 #!/usr/bin/env python3
 import os
 import sys
-from crontab import CronTab
+import subprocess
 
-def setup_cron_job():
-    """Set up a cron job to run daily at 12 AM UTC"""
+def setup_automation():
+    """Set up the content automation as a background task"""
     try:
-        # Get the current directory
-        current_dir = os.path.dirname(os.path.abspath(__file__))
+        print("Setting up Mystic Arcana content automation...")
         
-        # Create a cron job for the current user
-        cron = CronTab(user=True)
+        # Create a nohup startup script
+        startup_script = '''#!/bin/bash
+cd {}
+nohup python3 cron_jobs.py > automation.log 2>&1 &
+echo $! > automation.pid
+echo "Content automation started with PID $(cat automation.pid)"
+'''.format(os.path.dirname(os.path.abspath(__file__)))
         
-        # Remove any existing jobs with the same comment
-        for job in cron.find_comment('mystic_arcana_content_update'):
-            cron.remove(job)
-            print("Removed existing cron job")
+        with open('start_automation.sh', 'w') as f:
+            f.write(startup_script)
         
-        # Create a new job
-        job = cron.new(command=f'cd {current_dir} && python3 {current_dir}/cron_jobs.py >> {current_dir}/cron.log 2>&1')
-        job.setall('0 0 * * *')  # Run at 12 AM UTC every day
-        job.set_comment('mystic_arcana_content_update')
+        # Make it executable
+        os.chmod('start_automation.sh', 0o755)
         
-        # Write the crontab
-        cron.write()
+        print("✅ Automation setup complete!")
+        print("To start the automation service, run: ./start_automation.sh")
+        print("The service will run in the background and update content daily at 12 AM UTC")
         
-        print("✅ Cron job set up successfully to run daily at 12 AM UTC")
-        print(f"Cron job command: {job.command}")
-        print("Check cron.log file for execution logs")
     except Exception as e:
-        print(f"❌ Error setting up cron job: {e}")
+        print(f"❌ Error setting up automation: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
-    setup_cron_job()
+    setup_automation()
